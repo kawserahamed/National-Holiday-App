@@ -3,12 +3,14 @@ package org.primeit.governmentholidays.activity;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.primeit.governmentholidays.adapter.RecyclerAdapter;
+import org.primeit.governmentholidays.databinding.ActivityMainBinding;
 import org.primeit.governmentholidays.model.HolidayModel;
-import org.primeit.governmentholidays.R;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,14 +20,22 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
 
-
+    ActivityMainBinding binding;
+    RecyclerAdapter adapter;
 
     private ArrayList<HolidayModel> holidayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new RecyclerAdapter(getApplicationContext(), holidayList);
+
+        binding.recyclerView.setAdapter(adapter);
 
 
     }
