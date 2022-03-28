@@ -1,17 +1,14 @@
 package org.primeit.governmentholidays.activity;
 
 import android.os.Bundle;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.primeit.governmentholidays.adapter.RecyclerAdapter;
 import org.primeit.governmentholidays.databinding.ActivityMainBinding;
 import org.primeit.governmentholidays.model.HolidayModel;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -23,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     RecyclerAdapter adapter;
 
-    private ArrayList<HolidayModel> holidayList = new ArrayList<>();
+    private final ArrayList<HolidayModel> holidayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,19 +29,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
 
+        getHolidayList();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new RecyclerAdapter(getApplicationContext(), holidayList);
-
         binding.recyclerView.setAdapter(adapter);
 
 
     }
 
-
     private void getHolidayList() {
 
         // JSON Parsing
         String myJSONStr = loadJSONFromAssets();
+
         try {
             JSONObject rootJsonObject = new JSONObject(myJSONStr);
             JSONArray holidayJsonArray = rootJsonObject.getJSONArray("holiday");
@@ -54,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
                 HolidayModel holidayModel = new HolidayModel();
 
                 JSONObject jsonObject = holidayJsonArray.getJSONObject(i);
-
                 //Get Holiday details
                 holidayModel.setDate(jsonObject.getString("date"));
                 holidayModel.setDay(jsonObject.getString("day"));
@@ -64,9 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 holidayModel.setUrl(jsonObject.getString("url"));
 
                 //add to List;
-
                 holidayList.add(holidayModel);
-
 
             }
         } catch (JSONException e) {
@@ -76,10 +70,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String loadJSONFromAssets() {
-
         String json = null;
-
-
         try {
             InputStream inputStream = getAssets().open("holiday.json");
             int size = inputStream.available();
@@ -94,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         return json;
     }
