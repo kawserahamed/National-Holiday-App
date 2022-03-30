@@ -1,6 +1,7 @@
 package org.primeit.governmentholidays.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.primeit.governmentholidays.R;
+import org.primeit.governmentholidays.activity.ItemActivity;
 import org.primeit.governmentholidays.model.HolidayModel;
 
 import java.util.ArrayList;
@@ -20,9 +22,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
     Context context;
     ArrayList<HolidayModel> holidayList = new ArrayList<>();
 
+
     public RecyclerAdapter(Context context, ArrayList<HolidayModel> holidayList) {
         this.context = context;
         this.holidayList = holidayList;
+
     }
 
     public RecyclerAdapter() {
@@ -42,6 +46,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
         holder.title.setText(holiday.getHoliday());
         holder.date.setText(holiday.getDate());
 
+        holder.imageView.setOnClickListener(view -> {
+            Intent intent = new Intent(context.getApplicationContext(), ItemActivity.class);
+            intent.putExtra("holiday", holiday);
+            context.startActivity(intent);
+        });
 
     }
 
@@ -61,5 +70,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
             title = itemView.findViewById(R.id.textTitle);
             date = itemView.findViewById(R.id.textDate);
         }
+
     }
 }

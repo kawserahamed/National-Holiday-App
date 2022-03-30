@@ -1,6 +1,8 @@
 package org.primeit.governmentholidays.model;
 
-public class HolidayModel {
+import java.io.Serializable;
+
+public class HolidayModel implements Serializable {
 
     private String date;
     private String day;
