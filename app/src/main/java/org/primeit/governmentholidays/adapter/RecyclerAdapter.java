@@ -11,8 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import org.primeit.governmentholidays.R;
-import org.primeit.governmentholidays.activity.ItemActivity;
+import org.primeit.governmentholidays.activity.DetailsActivity;
 import org.primeit.governmentholidays.model.HolidayModel;
 
 import java.util.ArrayList;
@@ -45,10 +47,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
         HolidayModel holiday = holidayList.get(position);
         holder.title.setText(holiday.getHoliday());
         holder.date.setText(holiday.getDate());
+        Glide.with(context).load(holiday.getUrl())
+                .centerCrop()
+                .placeholder(R.drawable.placeholder)
+                .into(holder.imageView);
 
         holder.imageView.setOnClickListener(view -> {
-            Intent intent = new Intent(context.getApplicationContext(), ItemActivity.class);
+            Intent intent = new Intent(context.getApplicationContext(), DetailsActivity.class);
             intent.putExtra("holiday", holiday);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         });
 
