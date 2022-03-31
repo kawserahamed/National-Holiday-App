@@ -1,5 +1,6 @@
 package org.primeit.governmentholidays.utils.date_picker;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.timeline_item_layout, parent, false);
-        return new TimelineAdapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -52,26 +53,34 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         final int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
 
+        holder.monthView.setTextColor(Color.BLACK);
+        holder.dayView.setTextColor(Color.BLACK);
+        holder.dateView.setTextColor(Color.BLACK);
+
 
         final boolean isDisabled = holder.bind(month, day, dayOfWeek, year, position);
 
-        holder.rootView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (selectedView != null) {
-                    selectedView.setBackground(null);
-                }
-                if (!isDisabled) {
-                    v.setBackground(timelineView.getResources().getDrawable(R.drawable.background_shape));
+        holder.rootView.setOnClickListener(v -> {
+            if (selectedView != null) {
+                selectedView.setBackground(null);
 
-                    selectedPosition = position;
-                    selectedView = v;
+                holder.monthView.setTextColor(Color.WHITE);
+                holder.dayView.setTextColor(Color.WHITE);
+                holder.dateView.setTextColor(Color.WHITE);
 
-                    if (listener != null) listener.onDateSelected(year, month, day, dayOfWeek);
-                } else {
-                    if (listener != null)
-                        listener.onDisabledDateSelected(year, month, day, dayOfWeek, isDisabled);
-                }
+                notifyDataSetChanged();
+
+            }
+            if (!isDisabled) {
+                v.setBackground(timelineView.getResources().getDrawable(R.drawable.background_shape));
+
+                selectedPosition = position;
+                selectedView = v;
+
+                if (listener != null) listener.onDateSelected(year, month, day, dayOfWeek);
+            } else {
+                if (listener != null)
+                    listener.onDisabledDateSelected(year, month, day, dayOfWeek, isDisabled);
             }
         });
     }
@@ -128,7 +137,13 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
             if (selectedPosition == position) {
                 rootView.setBackground(timelineView.getResources().getDrawable(R.drawable.background_shape));
                 selectedView = rootView;
+                monthView.setTextColor(Color.WHITE);
+                dayView.setTextColor(Color.WHITE);
+                dateView.setTextColor(Color.WHITE);
             } else {
+                monthView.setTextColor(Color.BLACK);
+                dayView.setTextColor(Color.BLACK);
+                dateView.setTextColor(Color.BLACK);
                 rootView.setBackground(null);
             }
 
