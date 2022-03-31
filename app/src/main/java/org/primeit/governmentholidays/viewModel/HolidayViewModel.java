@@ -38,9 +38,6 @@ public class HolidayViewModel extends ViewModel {
 
                 JSONObject jsonObject = holidayJsonArray.getJSONObject(i);
 
-//                if (id.equals(compareDate)) {
-//
-//                }
                 //Get Holiday details
                 holidayModel.setDate(jsonObject.getString("date"));
                 holidayModel.setDay(jsonObject.getString("day"));
