@@ -13,9 +13,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        viewBinding {
-            enabled = true
-        }
+
     }
 
     buildTypes {
@@ -27,6 +25,9 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    viewBinding {
+        enabled true
     }
 }
 
@@ -43,7 +44,7 @@ dependencies {
     def lifecycle_version = "2.4.0"
     implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
-    
+
     // for URL to Image
     implementation 'com.github.bumptech.glide:glide:4.13.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
