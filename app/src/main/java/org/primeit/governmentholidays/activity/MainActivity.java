@@ -1,10 +1,8 @@
 package org.primeit.governmentholidays.activity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -32,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private final SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MM", Locale.getDefault());
     Calendar today = Calendar.getInstance();
     private final ArrayList<HolidayModel> holidayList = new ArrayList<>();
-    Context context;
+    private String selectedDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         binding.tvDate.setText(dateFormat.format(today.getTime()));
-
+        selectedDate = dateFormatNumber.format(today.getTime());
 
         binding.datePickerTimeline.setInitialDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DATE));
         binding.datePickerTimeline.setActiveDate(today);
@@ -70,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDateSelected(int year, int month, int day, int dayOfWeek) {
                 Date date = new Date(year, month, day);
+                selectedDate = dateFormatNumber.format(date);
                 holidayViewModel.getHolidayFilterList(dateFormatNumber.format(date), true);
 
             }
@@ -90,13 +89,13 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "onChanged: " + holidayModels.size());
         });
 
-        binding.switchMonthView.setOnToggledListener((toggleableView, isOn) ->{
-            if (isOn){
+        binding.switchMonthView.setOnToggledListener((toggleableView, isOn) -> {
+            if (isOn) {
                 binding.datePickerTimeline.setVisibility(View.GONE);
                 holidayViewModel.getHolidayFilterList(dateFormatMonth.format(System.currentTimeMillis()), false);
-            } else  {
+            } else {
                 binding.datePickerTimeline.setVisibility(View.VISIBLE);
-                holidayViewModel.getHolidayFilterList(dateFormatNumber.format(System.currentTimeMillis()), false);
+                holidayViewModel.getHolidayFilterList(selectedDate, true);
             }
         });
     }
