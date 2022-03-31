@@ -65,16 +65,20 @@ public class HolidayViewModel extends ViewModel {
 
     public void getHolidayFilterList(String compareDate, boolean isDate) {
 
+        holidayFilterList.clear();
+
         for (int i = 0; i < holidayList.size(); i++) {
 
             HolidayModel holiday = holidayList.get(i);
+
+            Log.d("ViewModel", "compareDate: " + compareDate + "holiday date: " + holiday.getDate());
 
             if (isDate) {
                 if (holiday.getDate().equals(compareDate)) {
                     holidayFilterList.add(holiday);
                 }
             } else {
-                if (holiday.getDate().split("-")[1].equals(compareDate)){
+                if (holiday.getDate().split("-")[1].equals(compareDate)) {
                     holidayFilterList.add(holiday);
                 }
             }

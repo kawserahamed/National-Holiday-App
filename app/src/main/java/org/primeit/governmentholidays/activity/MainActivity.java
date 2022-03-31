@@ -3,6 +3,8 @@ package org.primeit.governmentholidays.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -55,21 +57,19 @@ public class MainActivity extends AppCompatActivity {
 
         holidayViewModel.getHolidayFilterList(dateFormatMonth.format(System.currentTimeMillis()), false);
 
-        holidayViewModel.holidayLiveList.observe(this, holidayModels -> {
+        /*holidayViewModel.holidayLiveList.observe(this, holidayModels -> {
             Log.d(TAG, "onCreate: " + holidayModels.size());
             Log.d(TAG, "onCreate: " + dateFormatMonth.format(today.get(Calendar.MONTH)));
             holidayList.addAll(holidayModels);
 
             adapter.notifyDataSetChanged();
 
-        });
+        });*/
 
         binding.datePickerTimeline.setOnDateSelectedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(int year, int month, int day, int dayOfWeek) {
                 Date date = new Date(year, month, day);
-                Log.d(TAG, "onDateSelected: " + dateFormatNumber.format(date));
-
                 holidayViewModel.getHolidayFilterList(dateFormatNumber.format(date), true);
 
             }
@@ -90,7 +90,15 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "onChanged: " + holidayModels.size());
         });
 
-        binding.switchMonthView.setOnToggledListener((toggleableView, isOn) -> Log.d(TAG, "toggole"));
+        binding.switchMonthView.setOnToggledListener((toggleableView, isOn) ->{
+            if (isOn){
+                binding.datePickerTimeline.setVisibility(View.GONE);
+                holidayViewModel.getHolidayFilterList(dateFormatMonth.format(System.currentTimeMillis()), false);
+            } else  {
+                binding.datePickerTimeline.setVisibility(View.VISIBLE);
+                holidayViewModel.getHolidayFilterList(dateFormatNumber.format(System.currentTimeMillis()), false);
+            }
+        });
     }
 
 
