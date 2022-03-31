@@ -9,7 +9,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-
 import org.primeit.governmentholidays.adapter.RecyclerAdapter;
 import org.primeit.governmentholidays.databinding.ActivityMainBinding;
 import org.primeit.governmentholidays.model.HolidayModel;
@@ -18,9 +17,7 @@ import org.primeit.governmentholidays.utils.toggle.interfaces.OnToggledListener;
 import org.primeit.governmentholidays.utils.toggle.model.ToggleableView;
 import org.primeit.governmentholidays.viewModel.HolidayViewModel;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -32,9 +29,9 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     RecyclerAdapter adapter;
     HolidayViewModel holidayViewModel;
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault());
-    private SimpleDateFormat dateFormatNumber = new SimpleDateFormat("dd-MM", Locale.getDefault());
-    private SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MM", Locale.getDefault());
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault());
+    private final SimpleDateFormat dateFormatNumber = new SimpleDateFormat("dd-MM", Locale.getDefault());
+    private final SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MM", Locale.getDefault());
     Calendar today = Calendar.getInstance();
     private final ArrayList<HolidayModel> holidayList = new ArrayList<>();
     Context context;
@@ -63,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         holidayViewModel.getHolidayList(this);
         holidayViewModel.holidayLiveList.observe(this, holidayModels -> {
             Log.d(TAG, "onCreate: " + holidayModels.size());
-            Log.d(TAG, "onCreate: "+dateFormatMonth.format(today.get(Calendar.MONTH)));
+            Log.d(TAG, "onCreate: " + dateFormatMonth.format(today.get(Calendar.MONTH)));
             holidayList.addAll(holidayModels);
 
             adapter.notifyDataSetChanged();

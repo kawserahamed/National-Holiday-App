@@ -5,10 +5,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingStart="16dp"
-    android:paddingTop="3dp"
-    android:paddingEnd="16dp"
-    android:paddingBottom="3dp">
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="5dp">
 
     <TextView
         android:id="@+id/monthView"
