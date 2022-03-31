@@ -9,25 +9,19 @@ import androidx.lifecycle.ViewModel;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.primeit.governmentholidays.adapter.RecyclerAdapter;
 import org.primeit.governmentholidays.model.HolidayModel;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class HolidayViewModel extends ViewModel {
-    private SimpleDateFormat dateFormatNumber = new SimpleDateFormat("MM", Locale.getDefault());
     public MutableLiveData<List<HolidayModel>> holidayLiveList = new MutableLiveData<>();
     public MutableLiveData<List<HolidayModel>> holidayFilterLiveList = new MutableLiveData<>();
-    private ArrayList<HolidayModel> holidayList = new ArrayList<>();
-    private ArrayList<HolidayModel> holidayFilterList = new ArrayList<>();
+    private final ArrayList<HolidayModel> holidayList = new ArrayList<>();
+    private final ArrayList<HolidayModel> holidayFilterList = new ArrayList<>();
 
     public void getHolidayList(Context context) {
 
@@ -69,48 +63,24 @@ public class HolidayViewModel extends ViewModel {
         }
     }
 
-    public void getHolidayFilterList(String compareDate, Context context) {
-        Log.d("ddddd", "getHolidayFilterList: " + compareDate);
-        // JSON Parsing
-        String myJSONStr = loadJSONFromAssets(context);
+    public void getHolidayFilterList(String compareDate, boolean isDate) {
 
-        try {
-            JSONObject rootJsonObject = new JSONObject(myJSONStr);
-            JSONArray holidayJsonArray = rootJsonObject.getJSONArray("holiday");
-            holidayFilterList.clear();
-            for (int i = 0; i < holidayJsonArray.length(); i++) {
+        for (int i = 0; i < holidayList.size(); i++) {
 
-                //Create a temp Holiday object
-                HolidayModel holidayModel = new HolidayModel();
+            HolidayModel holiday = holidayList.get(i);
 
-                JSONObject jsonObject = holidayJsonArray.getJSONObject(i);
-
-                String id = jsonObject.getString("date");
-
-                if (id.equals(compareDate)) {
-                    //Get Holiday details
-                    holidayModel.setDate(jsonObject.getString("date"));
-                    holidayModel.setDay(jsonObject.getString("day"));
-                    holidayModel.setHoliday(jsonObject.getString("holiday"));
-                    holidayModel.setType(jsonObject.getString("type"));
-                    holidayModel.setComment(jsonObject.getString("comment"));
-                    holidayModel.setUrl(jsonObject.getString("url"));
-
-                    //add to List;
-                    holidayFilterList.add(holidayModel);
+            if (isDate) {
+                if (holiday.getDate().equals(compareDate)) {
+                    holidayFilterList.add(holiday);
                 }
-
+            } else {
+                if (holiday.getDate().split("-")[1].equals(compareDate)){
+                    holidayFilterList.add(holiday);
+                }
             }
-
-            holidayFilterLiveList.postValue(holidayFilterList);
-
-            Log.d("ddddd", "getHolidayList: " + holidayFilterList.size());
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
 
+        holidayFilterLiveList.postValue(holidayFilterList);
     }
 
     private String loadJSONFromAssets(Context context) {

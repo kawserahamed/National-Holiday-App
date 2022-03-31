@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -13,15 +12,12 @@ import org.primeit.governmentholidays.adapter.RecyclerAdapter;
 import org.primeit.governmentholidays.databinding.ActivityMainBinding;
 import org.primeit.governmentholidays.model.HolidayModel;
 import org.primeit.governmentholidays.utils.date_picker.OnDateSelectedListener;
-import org.primeit.governmentholidays.utils.toggle.interfaces.OnToggledListener;
-import org.primeit.governmentholidays.utils.toggle.model.ToggleableView;
 import org.primeit.governmentholidays.viewModel.HolidayViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         holidayViewModel = new ViewModelProvider(this).get(HolidayViewModel.class);
-        //viewModel = new HolidayViewModel(holidayList);
-        // viewModel.getHolidayList(getApplicationContext());
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new RecyclerAdapter(getApplicationContext(), holidayList);
@@ -58,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
         binding.datePickerTimeline.setActiveDate(today);
 
         holidayViewModel.getHolidayList(this);
+
+        holidayViewModel.getHolidayFilterList(dateFormatMonth.format(System.currentTimeMillis()), false);
+
         holidayViewModel.holidayLiveList.observe(this, holidayModels -> {
             Log.d(TAG, "onCreate: " + holidayModels.size());
             Log.d(TAG, "onCreate: " + dateFormatMonth.format(today.get(Calendar.MONTH)));
@@ -73,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 Date date = new Date(year, month, day);
                 Log.d(TAG, "onDateSelected: " + dateFormatNumber.format(date));
 
-                holidayViewModel.getHolidayFilterList(dateFormatNumber.format(date), getApplicationContext());
+                holidayViewModel.getHolidayFilterList(dateFormatNumber.format(date), true);
 
             }
 
@@ -83,26 +80,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        holidayViewModel.holidayFilterLiveList.observe(this, new Observer<List<HolidayModel>>() {
-            @Override
-            public void onChanged(List<HolidayModel> holidayModels) {
-                holidayList.clear();
-                holidayList.addAll(holidayModels);
-                adapter = new RecyclerAdapter(getApplicationContext(), holidayList);
-                binding.recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
+        holidayViewModel.holidayFilterLiveList.observe(this, holidayModels -> {
+            holidayList.clear();
+            holidayList.addAll(holidayModels);
+            adapter = new RecyclerAdapter(getApplicationContext(), holidayList);
+            binding.recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
 
-                Log.d(TAG, "onChanged: " + holidayModels.size());
-            }
+            Log.d(TAG, "onChanged: " + holidayModels.size());
         });
 
-        binding.switchMonthView.setOnToggledListener(new OnToggledListener() {
-            @Override
-            public void onSwitched(ToggleableView toggleableView, boolean isOn) {
-
-                Log.d(TAG, "toggole");
-            }
-        });
+        binding.switchMonthView.setOnToggledListener((toggleableView, isOn) -> Log.d(TAG, "toggole"));
     }
 
 
