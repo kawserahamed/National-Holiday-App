@@ -61,21 +61,26 @@ public class HolidayViewModel extends ViewModel {
     }
 
     public void getHolidayFilterList(String compareDate, boolean isDate) {
-
+        Log.d("ViewModel", "getHolidayFilterList: "+compareDate);
+        Log.d("ViewModel", "getHolidayFilterList: "+isDate);
         holidayFilterList.clear();
 
         for (int i = 0; i < holidayList.size(); i++) {
 
             HolidayModel holiday = holidayList.get(i);
 
-            Log.d("ViewModel", "compareDate: " + compareDate + "holiday date: " + holiday.getDate());
+            Log.d("ViewModel", "compareDate: " + compareDate + " :holiday date: " + holiday.getDate());
 
             if (isDate) {
+                Log.d("ViewModel", "Hit: ");
                 if (holiday.getDate().equals(compareDate)) {
+                    Log.d("ViewModel", "isDate:true ");
                     holidayFilterList.add(holiday);
                 }
             } else {
+                Log.d("ViewModel", "Hit Else: ");
                 if (holiday.getDate().split("-")[1].equals(compareDate)) {
+                    Log.d("ViewModel", "isDate: false");
                     holidayFilterList.add(holiday);
                 }
             }

@@ -1,7 +1,9 @@
 package org.primeit.governmentholidays.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.primeit.governmentholidays.R;
 import org.primeit.governmentholidays.interfaces.OnMonthClickListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class MonthAdapter extends RecyclerView.Adapter<MonthAdapter.RecyclerViewHolder> {
 
@@ -22,7 +27,9 @@ public class MonthAdapter extends RecyclerView.Adapter<MonthAdapter.RecyclerView
     ArrayList<String> monthList = new ArrayList<>();
     OnMonthClickListener onMonthClickListener;
     private View selectedView;
-    private int selectedPosition;
+    private int selectedPosition = -1;
+    Calendar date = Calendar.getInstance();
+    private final SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MMM", Locale.getDefault());
 
     public MonthAdapter(Context context, ArrayList<String> holidayList, OnMonthClickListener onMonthClickListener) {
         this.context = context;
@@ -42,15 +49,19 @@ public class MonthAdapter extends RecyclerView.Adapter<MonthAdapter.RecyclerView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         holder.tv_month.setTextColor(Color.BLACK);
         holder.tv_month.setText(monthList.get(position));
-
-        if (selectedPosition == position){
+        Log.d("adapter", "onBindViewHolder: " + selectedPosition);
+        if (selectedPosition == position) {
             holder.rootView.setBackgroundResource(R.drawable.background_shape);
             holder.tv_month.setTextColor(Color.WHITE);
-        }else {
+        }
+        else if (selectedPosition == -1 && dateFormatMonth.format(date.getTime()).equalsIgnoreCase(monthList.get(position))) {
+            holder.rootView.setBackgroundResource(R.drawable.background_shape);
+            holder.tv_month.setTextColor(Color.WHITE);
+        } else {
             holder.rootView.setBackground(null);
         }
 
@@ -59,6 +70,7 @@ public class MonthAdapter extends RecyclerView.Adapter<MonthAdapter.RecyclerView
             holder.rootView.setBackgroundResource(R.drawable.background_shape);
             holder.tv_month.setTextColor(Color.WHITE);
             notifyDataSetChanged();
+            onMonthClickListener.onMonthClick(selectedPosition, monthList.get(selectedPosition));
         });
     }
 
