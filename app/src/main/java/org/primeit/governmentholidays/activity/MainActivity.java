@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements OnMonthClickListe
 
         String[] months = getResources().getStringArray(R.array.month_list);
         monthList.addAll(Arrays.asList(months));
-        monthAdapter = new MonthAdapter(getApplicationContext(), monthList,this);
+        monthAdapter = new MonthAdapter(getApplicationContext(), monthList, this);
         binding.rvMonthList.setAdapter(monthAdapter);
 
 
@@ -105,9 +105,11 @@ public class MainActivity extends AppCompatActivity implements OnMonthClickListe
         binding.switchMonthView.setOnToggledListener((toggleableView, isOn) -> {
             if (isOn) {
                 binding.datePickerTimeline.setVisibility(View.GONE);
+                binding.rvMonthList.setVisibility(View.VISIBLE);
                 holidayViewModel.getHolidayFilterList(dateFormatMonth.format(System.currentTimeMillis()), false);
             } else {
                 binding.datePickerTimeline.setVisibility(View.VISIBLE);
+                binding.rvMonthList.setVisibility(View.GONE);
                 holidayViewModel.getHolidayFilterList(selectedDate, true);
             }
         });
