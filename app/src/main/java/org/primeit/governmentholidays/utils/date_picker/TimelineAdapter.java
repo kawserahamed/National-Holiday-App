@@ -21,8 +21,8 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
     private static final String[] WEEK_DAYS = DateFormatSymbols.getInstance().getShortWeekdays();
     private static final String[] MONTH_NAME = DateFormatSymbols.getInstance().getShortMonths();
 
-    private Calendar calendar = Calendar.getInstance();
-    private TimelineView timelineView;
+    private final Calendar calendar = Calendar.getInstance();
+    private final TimelineView timelineView;
     private Date[] deactivatedDates;
 
     private OnDateSelectedListener listener;

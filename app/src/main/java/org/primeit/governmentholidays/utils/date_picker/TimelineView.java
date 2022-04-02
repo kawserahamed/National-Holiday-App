@@ -112,15 +112,17 @@ public class TimelineView extends RecyclerView {
 
     /**
      * Calculates the date position and set the selected background on that date
+     *
      * @param activeDate active Date
      */
     public void setActiveDate(Calendar activeDate) {
         try {
             Date initialDate = new SimpleDateFormat("yyyy-MM-dd")
                     .parse(year + "-" + (month + 1) + "-" + this.date);
-            long diff =  activeDate.getTime().getTime() - initialDate.getTime();
+            long diff = activeDate.getTime().getTime() - initialDate.getTime();
             int position = (int) (diff / (1000 * 60 * 60 * 24));
             adapter.setSelectedPosition(position);
+            scrollToPosition(position);
             invalidate();
         } catch (ParseException e) {
             e.printStackTrace();

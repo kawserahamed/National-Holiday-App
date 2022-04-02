@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements OnMonthClickListe
         binding.tvDate.setText(dateFormat.format(today.getTime()));
         selectedDate = dateFormatNumber.format(today.getTime());
 
-        binding.datePickerTimeline.setInitialDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DATE));
+        //binding.datePickerTimeline.setInitialDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DATE));
         binding.datePickerTimeline.setActiveDate(today);
 
         holidayViewModel.getHolidayList(this);

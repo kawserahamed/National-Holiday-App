@@ -115,6 +115,7 @@ public class DatePickerTimeline extends LinearLayout {
      */
     public void setActiveDate(Calendar date) {
         timelineView.setActiveDate(date);
+
     }
 
     /**
