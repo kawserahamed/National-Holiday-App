@@ -120,10 +120,11 @@ public class MainActivity extends AppCompatActivity implements OnMonthClickListe
         });
     }
 
-
     @Override
     public void onMonthClick(int position, String month) {
         String pos = (position > 9) ? "" + (position + 1) : "0" + (position + 1);
+        Log.d(TAG, "onMonthClick: " + month);
+        Log.d(TAG, "onMonthClick: " + pos);
         holidayViewModel.getHolidayFilterList(pos, false);
 
     }
