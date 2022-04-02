@@ -6,10 +6,11 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingHorizontal="12dp"
-    android:paddingVertical="20dp">
+    android:paddingVertical="20dp"
+    tools:ignore="MissingDefaultResource">
 
     <TextView
-        android:id="@+id/dateView"
+        android:id="@+id/tv_month"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
