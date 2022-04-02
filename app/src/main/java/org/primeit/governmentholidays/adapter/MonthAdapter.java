@@ -1,5 +1,6 @@
 package org.primeit.governmentholidays.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -42,15 +43,15 @@ public class MonthAdapter extends RecyclerView.Adapter<MonthAdapter.RecyclerView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         holder.tv_month.setTextColor(Color.BLACK);
         holder.tv_month.setText(monthList.get(position));
 
-        if (selectedPosition == position){
+        if (selectedPosition == position) {
             holder.rootView.setBackgroundResource(R.drawable.background_shape);
             holder.tv_month.setTextColor(Color.WHITE);
-        }else {
+        } else {
             holder.rootView.setBackground(null);
         }
 
@@ -59,6 +60,7 @@ public class MonthAdapter extends RecyclerView.Adapter<MonthAdapter.RecyclerView
             holder.rootView.setBackgroundResource(R.drawable.background_shape);
             holder.tv_month.setTextColor(Color.WHITE);
             notifyDataSetChanged();
+            onMonthClickListener.onMonthClick(selectedPosition, monthList.get(selectedPosition));
         });
     }
 

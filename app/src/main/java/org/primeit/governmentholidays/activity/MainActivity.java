@@ -100,6 +100,11 @@ public class MainActivity extends AppCompatActivity implements OnMonthClickListe
             adapter.notifyDataSetChanged();
 
             Log.d(TAG, "onChanged: " + holidayModels.size());
+            if (holidayModels.size() != 0) {
+                binding.layoutLinear2.setVisibility(View.GONE);
+            } else {
+                binding.layoutLinear2.setVisibility(View.VISIBLE);
+            }
         });
 
         binding.switchMonthView.setOnToggledListener((toggleableView, isOn) -> {
@@ -117,7 +122,9 @@ public class MainActivity extends AppCompatActivity implements OnMonthClickListe
 
 
     @Override
-    public void onMonthClick(int position, String name) {
+    public void onMonthClick(int position, String month) {
+        String pos = (position > 9) ? "" + (position + 1) : "0" + (position + 1);
+        holidayViewModel.getHolidayFilterList(pos, false);
 
     }
 }
