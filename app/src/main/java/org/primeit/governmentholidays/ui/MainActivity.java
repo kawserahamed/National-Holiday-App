@@ -1,9 +1,8 @@
-package org.primeit.governmentholidays.activity;
+package org.primeit.governmentholidays.ui;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,7 +18,6 @@ import org.primeit.governmentholidays.utils.date_picker.OnDateSelectedListener;
 import org.primeit.governmentholidays.viewModel.HolidayViewModel;
 
 import java.text.SimpleDateFormat;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -43,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements OnMonthClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.Theme_GovernmentHolidays);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -122,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements OnMonthClickListe
 
     @Override
     public void onMonthClick(int position, String month) {
-        String pos = (position > 9) ? "" + (position + 1) : "0" + (position + 1);
+        String pos = (position > 8) ? "" + (position + 1) : "0" + (position + 1);
         Log.d(TAG, "onMonthClick: " + month);
         Log.d(TAG, "onMonthClick: " + pos);
         holidayViewModel.getHolidayFilterList(pos, false);
