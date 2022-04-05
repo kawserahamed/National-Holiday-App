@@ -15,8 +15,8 @@
     </style>
 
     <declare-styleable name="DatePickerTimeline" tools:ignore="ResourceName">
-        <attr name="monthTextColor" format="color"/>
-        <attr name="dateTextColor" format="color"/>
+        <attr name="monthTextColor" format="color" />
+        <attr name="dateTextColor" format="color" />
         <attr name="dayTextColor" format="color" />
         <attr name="disabledColor" format="color" />
         <!--<attr name="selectionBackgroundColor" format="color"/>-->
@@ -24,4 +24,9 @@
         <!--<attr name="dateTextSize" format="dimension"/>-->
         <!--<attr name="dayTextSize" format="dimension"/>-->
     </declare-styleable>
+
+    <style name="AppTheme.Splash" parent="Theme.GovernmentHolidays">
+        <item name="android:windowBackground">@drawable/background_splash</item>
+    </style>
+
 </resources>

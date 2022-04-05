@@ -1,4 +1,4 @@
-package org.primeit.governmentholidays.activity;
+package org.primeit.governmentholidays.ui;
 
 import android.os.Bundle;
 

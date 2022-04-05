@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import org.primeit.governmentholidays.R;
-import org.primeit.governmentholidays.activity.DetailsActivity;
+import org.primeit.governmentholidays.ui.DetailsActivity;
 import org.primeit.governmentholidays.model.HolidayModel;
 
 import java.util.ArrayList;
